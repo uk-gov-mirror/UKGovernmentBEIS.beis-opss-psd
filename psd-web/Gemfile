@@ -18,12 +18,11 @@ gem "slim-rails"
 gem "strong_migrations"
 gem "wicked"
 
-gem "shared-web", path: "./vendor/shared-web"
-
-
 group :development, :test do
   gem "roo", "~> 2.8.2"
   gem "rspec-mocks"
-
-  gem "shared-web-dev", path: "./vendor/shared-web/dev"
+  gem 'dotenv-rails', require: 'dotenv/rails-now'
+  gem "shared-web-dev", path: "../shared-web/dev"
 end
+
+gem "shared-web", path: "../shared-web"

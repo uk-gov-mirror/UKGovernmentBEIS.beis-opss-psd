@@ -7701,7 +7701,7 @@ shallow-clone@^1.0.0:
     kind-of "^5.0.0"
     mixin-object "^2.0.1"
 
-shared-web@./vendor/shared-web:
+shared-web@../shared-web:
   version "1.0.0"
   dependencies:
     "@rails/webpacker" "4.0.7"
