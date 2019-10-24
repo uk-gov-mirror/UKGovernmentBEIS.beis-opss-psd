@@ -19,7 +19,7 @@ gem "sprockets", "= 4.0.0.beta10"
 gem "strong_migrations"
 gem "wicked"
 
-gem "shared-web", path: "./vendor/shared-web"
+gem "shared-web", path: "../shared-web"
 
 group :development, :test do
   gem "brakeman"
@@ -34,6 +34,7 @@ group :development, :test do
   gem "pry"
   gem "roo"
   gem "rspec-mocks"
+  gem 'rspec-rails'
   gem "rubocop"
   gem "rubocop-performance"
   gem "ruby-debug-ide"
@@ -42,4 +43,5 @@ group :development, :test do
   gem "simplecov-console"
   gem "slim_lint"
   gem "solargraph"
+  gem "webmock"
 end
