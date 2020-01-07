@@ -175,42 +175,29 @@ module InvestigationsHelper
   end
 
   def query_params
-    set_default_status_filter
-    set_default_type_filter
-    set_default_sort_by_filter
-    set_default_assignee_filter
-    set_default_creator_filter
-    params.permit(:q, :status_open, :status_closed, :page, :allegation, :enquiry, :project,
-                  :assigned_to_me, :assigned_to_someone_else, :assigned_to_someone_else_id, :sort_by, :created_by_me, :created_by_me, :created_by_someone_else, :created_by_someone_else_id,
-                  assignee_teams_with_keys.map { |key, _t, _n| key }, creator_teams_with_keys.map { |key, _t, _n| key })
+    # :page,
+
+    params.require(:search).permit(
+      :q,
+      :status_open,
+      :status_closed,
+      :allegation,
+      :enquiry,
+      :project,
+      :assigned_to_me,
+      :assigned_to_someone_else,
+      :assigned_to_someone_else_id,
+      :sort_by,
+      :created_by_me,
+      :created_by_me,
+      :created_by_someone_else,
+      :created_by_someone_else_id
+    )
+    assignee_teams_with_keys.map { |key, _t, _n| key }, creator_teams_with_keys.map { |key, _t, _n| key })
   end
 
   def export_params
     query_params.except(:page)
-  end
-
-  def set_default_status_filter
-    params[:status_open] = "checked" if params[:status_open].blank?
-  end
-
-  def set_default_sort_by_filter
-    params[:sort_by] = "recent" if params[:sort_by].blank?
-  end
-
-  def set_default_assignee_filter
-    params[:assigned_to_me] = "unchecked" if params[:assigned_to_me].blank?
-    params[:assigned_to_someone_else] = "unchecked" if params[:assigned_to_someone_else].blank?
-  end
-
-  def set_default_creator_filter
-    params[:created_by_me] = "unchecked" if params[:created_by_me].blank?
-    params[:created_by_someone_else] = "unchecked" if params[:created_by_someone_else].blank?
-  end
-
-  def set_default_type_filter
-    params[:allegation] = "unchecked" if params[:allegation].blank?
-    params[:enquiry] = "unchecked" if params[:enquiry].blank?
-    params[:project] = "unchecked" if params[:project].blank?
   end
 
   def build_breadcrumb_structure

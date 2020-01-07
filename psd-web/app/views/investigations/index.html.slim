@@ -30,22 +30,25 @@
           classes: "govuk-checkboxes--small",
           fieldset: { legend: { text: "Created by", classes: "govuk-fieldset__legend--s" } },
           items: created_by(form)
+
         = render "form_components/govuk_checkboxes", form: form, key: :type,
                  classes: "govuk-checkboxes--small",
                  fieldset: { legend: { text: "Type", classes: "govuk-fieldset__legend--s" } },
-                 items: [{ key: "allegation", value: "checked", unchecked_value: "unchecked", text: "Allegation" },
-                 { key: "enquiry", value: "checked", unchecked_value: "unchecked", text: "Enquiry" },
-                 { key: "project", value: "checked", unchecked_value: "unchecked", text: "Project" }]
+                 items: [\
+                   { key: "search[allegation]", value: "checked", unchecked_value: "unchecked", text: "Allegation" },
+                   { key: "search[enquiry]", value: "checked", unchecked_value: "unchecked", text: "Enquiry" },
+                   { key: "search[project]", value: "checked", unchecked_value: "unchecked", text: "Project" }]
+
         = render "form_components/govuk_checkboxes", form: form, key: :status,
                  classes: "govuk-checkboxes--small",
                  fieldset: { legend: { text: "Status", classes: "govuk-fieldset__legend--s" } },
-                 items: [{ key: "status_open", value: "checked", unchecked_value: "unchecked", text: "Open" },
-                 { key: "status_closed", value: "checked", unchecked_value: "unchecked", text: "Closed" }]
-        = render "form_components/govuk_radios", form: form, key: :sort_by,
+                 items: [{ key: "search[status_open]", value: "checked", unchecked_value: "unchecked", text: "Open" },
+                 { key: "search[status_closed]", value: "checked", unchecked_value: "unchecked", text: "Closed" }]
+
+        = render "form_components/govuk_radios", form: form, key: "search[sort_by]",
                 classes: "govuk-radios--small",
                 fieldset: { legend: { text: "Sort by", classes: "govuk-fieldset__legend--s" } },
-                items: [{ text: "Relevance", value: "relevance", unchecked_value: "unchecked" },
-                        { text: "Most recently updated", value: "recent", unchecked_value: "unchecked" },
+                items: [{ text: "Most recently updated", value: "recent", unchecked_value: "unchecked" },
                         { text: "Least recently updated", value: "oldest", unchecked_value: "unchecked" },
                         { text: "Most recently created", value: "newest", unchecked_value: "unchecked" }]
         = form.submit "Apply filters", name: nil, class: "govuk-button"
