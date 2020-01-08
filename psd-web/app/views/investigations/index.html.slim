@@ -54,7 +54,7 @@
         = form.submit "Apply filters", name: nil, class: "govuk-button"
   .govuk-grid-column-three-quarters
     - if @results.any?
-      = render "table", search_results: @results, sorted_by: query_params[:sort_by]
+      = render "table", search_results: @results, sorted_by: @search.sort_by
       = will_paginate @investigations
       br
       - if User.current.is_psd_admin?

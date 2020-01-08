@@ -37,5 +37,17 @@ RSpec.describe SearchParams do
     describe "#project" do
       it { expect(subject.project).to eq("unchecked") }
     end
+
+    describe "#status_closed" do
+      it { expect(subject.status_closed).to be nil }
+    end
+
+    describe "#sort" do
+      it { expect(subject.sort).to be nil }
+    end
+
+    describe "#direction" do
+      it { expect(subject.direction).to be nil }
+    end
   end
 end

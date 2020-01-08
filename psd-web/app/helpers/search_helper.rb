@@ -8,9 +8,15 @@ module SearchHelper
   end
 
   def search_query
-    query = params[:q] if params[:q].present?
-    filters = filter_params
-    sorting = sorting_params
+    query   = nil
+    sorting = {}
+    filters = {}
+
+    if params[:q].present?
+      query = params[:q]
+      filters = filter_params
+      sorting = sorting_params
+    end
     ElasticsearchQuery.new(query, filters, sorting)
   end
 

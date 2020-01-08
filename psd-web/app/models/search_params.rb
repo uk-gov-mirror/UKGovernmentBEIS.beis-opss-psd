@@ -3,13 +3,12 @@ class SearchParams
   include ActiveModel::Model
   include ActiveModel::Attributes
 
-
-  attr_accessor :q,
-                :sort,
-                :direction,
-                :status_closed,
-                :assigned_to_someone_else_id,
-                :created_by_someone_else_id
+  attribute :q
+  attribute :sort
+  attribute :direction
+  attribute :status_closed
+  attribute :assigned_to_someone_else_id
+  attribute :created_by_someone_else_id
 
   attribute :status_open,               :string, default: "checked"
   attribute :sort_by,                   :string, default: "recent"

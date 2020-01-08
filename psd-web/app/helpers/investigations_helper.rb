@@ -175,7 +175,7 @@ module InvestigationsHelper
   end
 
   def query_params
-    # :page,
+    return unless params.key?(:search)
 
     params.require(:search).permit(
       :q,
@@ -193,7 +193,8 @@ module InvestigationsHelper
       :created_by_someone_else,
       :created_by_someone_else_id
     )
-    assignee_teams_with_keys.map { |key, _t, _n| key }, creator_teams_with_keys.map { |key, _t, _n| key })
+
+    # assignee_teams_with_keys.map { |key, _t, _n| key }, creator_teams_with_keys.map { |key, _t, _n| key }
   end
 
   def export_params
