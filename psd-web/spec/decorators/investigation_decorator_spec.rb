@@ -58,7 +58,7 @@ RSpec.describe InvestigationDecorator, :with_stubbed_elasticsearch, :with_stubbe
 
       it "displays the only category present a paragraphe" do
         random_product_category = investigation.products.sample.category
-        expect(product_summary_list)
+        expect(Capybara.string(product_summary_list))
           .to have_css("dd.govuk-summary-list__value p.govuk-body", text: random_product_category.upcase_first)
       end
 
@@ -66,9 +66,9 @@ RSpec.describe InvestigationDecorator, :with_stubbed_elasticsearch, :with_stubbe
         let(:products_list) { [iphone, washing_machine] }
 
         it "displays a categories as a list" do
-          expect(product_summary_list)
+          expect(Capybara.string(product_summary_list))
             .to have_css("dd.govuk-summary-list__value ul.govuk-list li", text: iphone_3g.category.upcase_first)
-          expect(product_summary_list)
+          expect(Capybara.string(product_summary_list))
             .to have_css("dd.govuk-summary-list__value ul.govuk-list li", text: iphone.category.upcase_first)
         end
       end
