@@ -104,8 +104,9 @@ class User < ApplicationRecord
     teams.map(&:name).join(", ")
   end
 
-  def assignee_short_name
-    if organisation.present? && organisation.id != User.current.organisation_id
+  # TODO: remove default value of User.current
+  def assignee_short_name(other_user: User.current)
+    if organisation.present? && organisation.id != other_user.organisation_id
       organisation.name
     else
       name
