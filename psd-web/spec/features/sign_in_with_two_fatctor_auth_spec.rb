@@ -1,9 +1,8 @@
 require "rails_helper"
 
-RSspec.feature "Sign in with two factor auth" do
+RSpec.feature "Sign in with two factor auth", :with_elasticsearch, :with_stubbed_mailer do
 
   it "allows user to sign in" do
-    sign_in
 
     fill_in "authentication[code]", with: "some_code"
     click_on "Continue"

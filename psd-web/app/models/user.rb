@@ -1,5 +1,10 @@
 class User < ApplicationRecord
-  devise :two_factor_authenticatable, :omniauthable, omniauth_providers: %i[openid_connect]
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :validatable
+
+
   belongs_to :organisation
 
   has_many :investigations, dependent: :nullify, as: :assignable
