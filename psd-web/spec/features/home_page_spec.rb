@@ -1,6 +1,8 @@
 require "rails_helper"
+require "shared_contexts/signed_in_links"
 
 RSpec.feature "Home page", :with_elasticsearch, :with_stubbed_keycloak_config do
+  include_context "signed in links"
   context "User signed out" do
     scenario "shows the home page" do
       sign_out(:user)
@@ -29,12 +31,6 @@ RSpec.feature "Home page", :with_elasticsearch, :with_stubbed_keycloak_config do
     def expect_small_beta_phase_banner
       expect(page).to have_css(".psd-header .govuk-phase-banner__content__tag")
       expect(page).not_to have_css(".govuk-phase-banner")
-    end
-
-    def expect_header_to_have_signed_in_links
-      expect(page).to have_link("Sign out")
-      expect(page).to have_link("Your account")
-      expect(page).not_to have_link("Sign in")
     end
 
     context "as OPSS user" do
