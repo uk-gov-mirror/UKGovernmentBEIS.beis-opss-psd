@@ -17,6 +17,8 @@ class Investigation < ApplicationRecord
 
   before_validation { trim_line_endings(:user_title, :description, :non_compliant_reason, :hazard_description) }
 
+  validates :type, presence: true # Prevent saving instances of Investigation; must use a subclass instead
+
   validates :description, presence: true, on: :update
   validates :owner_id, presence: { message: "Select case owner" }, on: :update
 
@@ -58,27 +60,29 @@ class Investigation < ApplicationRecord
   has_one :source, as: :sourceable, dependent: :destroy
   has_one :complainant, dependent: :destroy
 
-  has_many :collaborators, dependent: :destroy
-  has_many :teams, through: :collaborators
+  has_many :edit_access_collaborations, dependent: :destroy, class_name: "Collaboration::EditAccess"
+  has_many :teams_with_edit_access, through: :edit_access_collaborations, dependent: :destroy, source: :editor, source_type: "Team"
 
   # TODO: Refactor to remove this callback hell
   before_create :set_source_to_current_user, :set_owner_as_current_user, :add_pretty_id
   after_create :create_audit_activity_for_case, :send_confirmation_email
+
+  def initialize(*args)
+    raise "Cannot instantiate an Investigation - use one of its subclasses instead" if self.class == Investigation
+
+    super
+  end
 
   def owner_team
     owner&.team
   end
 
   def teams_with_access
-    ([owner_team] + teams.order(:name)).compact
+    ([owner_team] + teams_with_edit_access.order(:name)).compact
   end
 
   def status
     is_closed? ? "Closed" : "Open"
-  end
-
-  def pretty_visibility
-    is_private ? ApplicationController.helpers.visibility_options[:private] : ApplicationController.helpers.visibility_options[:public]
   end
 
   def important_owner_people
@@ -141,9 +145,9 @@ class Investigation < ApplicationRecord
   end
 
   def reported_reason
-    return if super.blank?
+    return if self[:reported_reason].blank?
 
-    @reported_reason ||= ActiveSupport::StringInquirer.new(super)
+    @reported_reason ||= ActiveSupport::StringInquirer.new(self[:reported_reason])
   end
 
   def child_should_be_displayed?(user)

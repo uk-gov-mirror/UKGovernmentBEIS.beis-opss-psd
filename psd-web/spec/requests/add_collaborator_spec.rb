@@ -6,7 +6,7 @@ RSpec.describe "Adding a collaborator to a case", type: :request, with_stubbed_m
 
   context "when the collaborator params are valid" do
     let(:message) { "Thanks for collaborating on this case" }
-    let(:investigation) { create(:investigation, owner: user) }
+    let(:investigation) { create(:allegation, owner: user) }
     let(:other_team) { create(:team) }
 
     before do
@@ -14,10 +14,10 @@ RSpec.describe "Adding a collaborator to a case", type: :request, with_stubbed_m
 
       post investigation_collaborators_path(investigation.pretty_id),
            params: {
-             collaborator: {
+             collaboration_edit_access: {
                include_message: "true",
                message: message,
-               team_id: other_team.id
+               collaborator_id: other_team.id
              }
            }
     end
@@ -27,21 +27,21 @@ RSpec.describe "Adding a collaborator to a case", type: :request, with_stubbed_m
     end
 
     it "adds the team as a collaborator to the case" do
-      expect(investigation.teams).to include(other_team)
+      expect(investigation.teams_with_edit_access).to include(other_team)
     end
 
     it "includes the message in the collaborator record" do
-      expect(investigation.collaborators.first.message).to eql(message)
+      expect(investigation.edit_access_collaborations.first.message).to eql(message)
     end
 
     it "associates the collaborator with the user who added the team" do
-      expect(investigation.collaborators.first.added_by_user).to eql(user)
+      expect(investigation.edit_access_collaborations.first.added_by_user).to eql(user)
     end
   end
 
   context "when the collaborator params are invalid" do
     let(:message) { "Thanks for collaborating on this case" }
-    let(:investigation) { create(:investigation, owner: user) }
+    let(:investigation) { create(:allegation, owner: user) }
     let(:other_team) { create(:team) }
 
     before do
@@ -49,10 +49,10 @@ RSpec.describe "Adding a collaborator to a case", type: :request, with_stubbed_m
 
       post investigation_collaborators_path(investigation.pretty_id),
            params: {
-             collaborator: {
+             collaboration_edit_access: {
                include_message: "true",
                message: "",
-               team_id: ""
+               collaborator_id: ""
              }
            }
     end
@@ -66,12 +66,12 @@ RSpec.describe "Adding a collaborator to a case", type: :request, with_stubbed_m
     let(:existing_collaborator_team) { create(:team) }
     let(:investigation) do
       create(
-        :investigation,
+        :allegation,
         owner: user,
-        collaborators: [
+        edit_access_collaborations: [
           create(
-            :collaborator,
-            team: existing_collaborator_team,
+            :collaboration_edit_access,
+            collaborator: existing_collaborator_team,
             include_message: false,
             added_by_user: user
           )
@@ -84,9 +84,9 @@ RSpec.describe "Adding a collaborator to a case", type: :request, with_stubbed_m
 
       post investigation_collaborators_path(investigation.pretty_id),
            params: {
-             collaborator: {
+             collaboration_edit_access: {
                include_message: "false",
-               team_id: existing_collaborator_team.id
+               collaborator_id: existing_collaborator_team.id
              }
            }
     end
@@ -97,7 +97,7 @@ RSpec.describe "Adding a collaborator to a case", type: :request, with_stubbed_m
   end
 
   context "when the user isn't part of the team that is the case owner", :with_errors_rendered do
-    let(:investigation) { create(:investigation, owner: create(:team)) }
+    let(:investigation) { create(:allegation, owner: create(:team)) }
 
     before do
       sign_in user

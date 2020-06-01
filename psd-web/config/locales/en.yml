@@ -53,6 +53,10 @@ en:
     coronavirus_related:
       true: "Coronavirus related case"
       false: "Not a coronavirus related case"
+    protected_details: "Only teams added to the case can view %{data_type}"
+    is_private:
+      false: Visible to all
+      true: Restricted for legal privilege
   investigations:
     coronavirus_related:
       show:
@@ -168,9 +172,9 @@ en:
               blank: "Enter date of the test request"
               invalid: "Enter a real date of the test request"
               date_missing_component: "Enter date of the test request and include a %{missing_components}"
-        collaborator:
+        collaboration/edit_access:
           attributes:
-            team:
+            collaborator:
               required: "Select a team to add to the case"
             message:
               blank: Enter a message to the team
