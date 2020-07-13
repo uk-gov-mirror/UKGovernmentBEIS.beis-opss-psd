@@ -115,6 +115,14 @@ class ApplicationController < ActionController::Base
     root_path
   end
 
+  def from_path
+    if params[:from].to_s.start_with?("/")
+      params[:from]
+    else
+      nil
+    end
+  end
+
 private
 
   def render_404_page

@@ -314,27 +314,27 @@ module InvestigationsHelper
   def add_new_menu_data_attributes(investigation)
     supporting_information_types = [
       {
-        path: new_investigation_activity_comment_path(investigation),
+        path: new_investigation_activity_comment_path(investigation, from: request.path),
         text: "Comment"
       },
       {
-        path: new_investigation_corrective_action_path(investigation),
+        path: new_investigation_corrective_action_path(investigation, from: request.path),
         text: "Corrective action"
       },
       {
-        path: new_investigation_correspondence_path(investigation),
+        path: new_investigation_correspondence_path(investigation, from: request.path),
         text: "Correspondence"
       },
       {
-        path: new_investigation_new_path(investigation),
+        path: new_investigation_new_path(investigation, from: request.path),
         text: "Image"
       },
       {
-        path: new_investigation_test_result_path(investigation),
+        path: new_investigation_test_result_path(investigation, from: request.path),
         text: "Test result"
       },
       {
-        path: new_investigation_new_path(investigation),
+        path: new_investigation_new_path(investigation, from: request.path),
         text: "Other document or attachment"
       }
 
@@ -359,17 +359,17 @@ module InvestigationsHelper
       visibility_status = investigation.is_private? ? "restricted" : "not_restricted"
 
       actions << {
-        path: status_investigation_path(@investigation),
+        path: status_investigation_path(@investigation, from: request.path),
         text: I18n.t("change_case_status.#{case_status}", scope: "forms.investigation_actions.actions")
       }
 
       actions << {
-        path: new_investigation_ownership_path(@investigation),
+        path: new_investigation_ownership_path(@investigation, from: request.path),
         text: I18n.t(:change_case_owner, scope: "forms.investigation_actions.actions")
       }
 
       actions << {
-        path: visibility_investigation_path(@investigation),
+        path: visibility_investigation_path(@investigation, from: request.path),
         text: I18n.t("change_case_visibility.#{visibility_status}", scope: "forms.investigation_actions.actions")
       }
     end
@@ -377,7 +377,7 @@ module InvestigationsHelper
     if policy(investigation).send_email_alert?
 
       actions << {
-        path: new_investigation_alert_path(@investigation),
+        path: new_investigation_alert_path(@investigation, from: request.path),
         text: I18n.t(:send_email_alert, scope: "forms.investigation_actions.actions")
       }
     end

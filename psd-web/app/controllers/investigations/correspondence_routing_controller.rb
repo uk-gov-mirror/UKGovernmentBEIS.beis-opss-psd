@@ -3,6 +3,7 @@ module Investigations
     def new
       authorize investigation, :update?
       correspondence_type_form
+      @back_link_path = from_path || investigation_path(@investigation)
     end
 
     def create

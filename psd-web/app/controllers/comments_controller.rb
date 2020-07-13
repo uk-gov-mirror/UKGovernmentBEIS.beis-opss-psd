@@ -23,6 +23,7 @@ class CommentsController < ApplicationController
 
   def new
     @comment = @investigation.activities.new
+    @back_link_path = from_path || investigation_path(@investigation)
   end
 
 private
