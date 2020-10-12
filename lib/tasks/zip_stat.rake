@@ -9,6 +9,7 @@ namespace :data do
     extension_list_line_breakpoint = 10
 
     computed_stats = lambda { |entries|
+      entries = entries.select { |e| e[:size].present? }
       average_size = entries.map { |e| e[:size] }.instance_eval { reduce(:+) / size.to_f }
       extensions = entries.map { |e| File.extname(e[:name]) }.reject(&:empty?).sort
       [number_to_human_size(average_size, precision: 2), extensions]
