@@ -10,6 +10,7 @@ class BusinessesController < ApplicationController
   before_action :build_breadcrumbs, only: %i[show]
   before_action :set_countries, only: %i[update edit]
 
+
   # GET /businesses
   # GET /businesses.json
   def index
